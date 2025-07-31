@@ -206,7 +206,7 @@ const { add } = require('./math.js');
     [
       “@babel/preset-env”,
       {
-	    "modules": false // modules 값을 true로 설정하면 항상 ES5 문법으로 변환
+	    "modules": false 
       }
     ]
  ]
@@ -224,7 +224,7 @@ Babel 설정에서 `modules: false` 옵션을 사용한다면 import/export 구�
 ```
 // package.json
 {
-  "sideEffects": false  // "내 프로젝트의 모든 모듈은 side effect가 없다는 설정"
+  "sideEffects": false  // 내 프로젝트의 모든 모듈은 side effect가 없다는 설정
 }
 ```
 
