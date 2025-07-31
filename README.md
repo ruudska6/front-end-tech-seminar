@@ -3,7 +3,7 @@
 
 ## 📖 목차 
 
-1. [번들링이란?](#-번들링이란)
+1. [번들링이란?](#-번들링이란?)
 2. [번들링 최적화 기법 - Tree Shaking](#-번들링-최적화-기법---tree-shaking)
 3. [Tree Shaking의 원리와 고려사항](#️-tree-shaking의-원리와-고려사항)
 4. [Tree Shaking in RollupJS](#-tree-shaking-in-rollupjs)
@@ -382,7 +382,7 @@ include(context: InclusionContext): void {
 
 ---
 
-## Q&A 
+## Q&A
 ### Q. 팀 내 프로젝트의 코드베이스에서 사이드이펙트가 없다는 걸 감지/확신하려면?
    사이드이펙트가 있는지 판단하려면 파일 내용을 직접 확인 해야한다. 
    빌드 결과를 webpack-bundle-analyzer 같은 도구로 분석하면 의도치 않게 코드가 빠졌는지 확인하는데 도움이 될 수 있다.
