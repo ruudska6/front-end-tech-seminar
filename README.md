@@ -1,21 +1,24 @@
 # 🌳 Tree Shaking - "코드를 흔들어 가볍게"
 
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)](https://www.ecma-international.org/ecma-262/)
-[![Bundler](https://img.shields.io/badge/Bundler-Webpack%20%7C%20Rollup-blue)](https://webpack.js.org/)
 
-> **사용되지 않는 코드(dead code)를 제거하여 번들 크기를 최적화하는 기법**
-
-## 📖 목차
+## 📖 목차 
 
 1. [번들링이란?](#-번들링이란)
 2. [번들링 최적화 기법 - Tree Shaking](#-번들링-최적화-기법---tree-shaking)
 3. [Tree Shaking의 원리와 고려사항](#️-tree-shaking의-원리와-고려사항)
 4. [Tree Shaking in RollupJS](#-tree-shaking-in-rollupjs)
 5. [정리](#-정리)
+6. [Q&A](#-Q&A)
 
 ---
 
-## 🔧 번들링이란?
+## 주제 선정 이유
+
+프로젝트에서 불필요한 코드로 번들이 커져 성능이 저하되는 문제를 겪고, 이를 해결하기 위해 주제를 선정했고,
+또한 이 과정에서 import/export 기능의 궁금증이 생겨 좀 더 자세히 알고자하여 선택하였습니다.
+
+--- 
+## 번들링이란?
 
 ### 번들(Bundle)의 의미
 
@@ -52,37 +55,28 @@ const firstInput = document.getElementById('input1'); // 전역 변수 충돌!
 - ⚠️ 모든 코드가 브라우저로 전송 (불필요한 코드 포함)
 - ⚠️ 유지보수 불가능
 
-### 🎯 번들러를 사용하는 이유
+###  번들러를 사용하는 이유
 
-✅ **요청 수 감소** - 여러 파일을 하나로 합쳐 네트워크 요청 최소화  
-✅ **로딩 속도 향상** - 번들된 파일의 효율적인 로딩  
-✅ **캐싱 최적화** - 번들된 파일 하나만 캐시  
-✅ **유지보수성과 배포 효율성** - 개발할 때는 모듈화, 배포할 때는 성능 최적화
+- **요청 수 감소** - 여러 파일을 하나로 합쳐 네트워크 요청 최소화  
+- **로딩 속도 향상** - 번들된 파일의 효율적인 로딩  
+- **캐싱 최적화** - 번들된 파일 하나만 캐시  
+- **유지보수성과 배포 효율성** - 개발할 때는 모듈화, 배포할 때는 성능 최적화
 
 ### 번들링 과정
-
-```mermaid
-graph LR
-    A[Entry Point에서 시작] --> B[import/require 구문 추적]
-    B --> C[모든 모듈 탐색 및 구조 파악]
-    C --> D[의존성 구조 정리]
-    D --> E[번들 파일 생성]
-```
-
-**구체적인 3단계:**
+**3단계:**
 1. **모듈 탐색** - Entry point부터 의존성 그래프 생성
 2. **의존성 구조 정리** - 모듈 간의 관계와 실행 순서 파악
 3. **번들 파일 생성** - 하나의 최적화된 파일로 통합
 
 ---
 
-## 🎯 번들링 최적화 기법 - Tree Shaking
+## 번들링 최적화 기법 - Tree Shaking
 
 ### 주요 최적화 기법들
 
-✅ **Tree Shaking**: 사용하지 않는 코드(import) 제거  
-✅ **Code Splitting**: 한 파일을 여러 개의 작은 파일로 나누기  
-✅ **Minification**: 공백 / 주석을 없애서 크기 줄이기
+-  **Tree Shaking**: 사용하지 않는 코드(import) 제거  
+-  **Code Splitting**: 한 파일을 여러 개의 작은 파일로 나누기  
+-  **Minification**: 공백 / 주석을 없애서 크기 줄이기
 
 ### Code Splitting의 효과
 
@@ -95,7 +89,7 @@ graph LR
 - 초기 로딩 성능 향상
 
 ```javascript
-// React에서의 Code Splitting 예시 (수업시간에 배운 내용)
+// React에서의 Code Splitting 예시 
 import React, { Suspense } from "react";
 
 const LazyComponent = React.lazy(() => import("./LazyComponent"));
@@ -121,10 +115,8 @@ function App() {
 ```javascript
 import * as util from '../utilFile';  // 전체 import
 ```
-- 거대한 유틸리티 라이브러리를 전체 import
-- 실제로는 일부 함수만 사용
-- ❌ 리소스 낭비 - 번들 파일 크기 증가
-- ❌ 번들 파일 로딩 시간 증가 → 페이지 로딩 속도 저하
+거대한 유틸리티 라이브러리를 전체 import하고 있습니다. 그러나 실제로는
+일부 함수만 사용합니다. 번들 파일의 크기가 증가하고, 그에 따라 로딩 시간도 증가되어 페이지 로딩 속도가 저하 됩니다.
 
 #### 해결책
 ```javascript
@@ -144,7 +136,7 @@ console.log(add(2, 3));
 
 ---
 
-## ⚙️ Tree Shaking의 원리와 고려사항
+## Tree Shaking의 원리와 고려사항
 
 ### 정적 분석(Static Analysis) 기반
 
@@ -158,7 +150,7 @@ Tree Shaking이 제대로 동작하려면, **코드가 예측 가능하고 정�
 
 이러한 기능은 2015년에 ES6에서 도입된 **ES Module(ESM)** 문법을 통해 가능해졌습니다. ESM은 import와 export를 명확하게 선언하므로써 Webpack과 같은 번들러가 프로그램 실행 없이도 모듈 간의 구조를 분석할 수 있습니다.
 
-#### ✅ 정적인 코드 (ES6 - Tree Shaking 가능)
+#### 정적인 코드 (ES6 - Tree Shaking 가능)
 ```javascript
 // utils.js
 export function add(a, b) {
@@ -174,7 +166,7 @@ import { add } from './utils.js';  // 정적으로 분석 가능
 console.log(add(1, 2));
 ```
 
-#### ❌ 동적인 코드 (CommonJS - Tree Shaking 불가능)
+#### 동적인 코드 (CommonJS - Tree Shaking 불가능)
 ```javascript
 // 런타임에 모듈 경로가 결정됨
 const path = './' + moduleName;
@@ -222,7 +214,7 @@ Babel 설정에서 `modules: false` 옵션을 사용한다면 import/export 구�
 ```json
 // package.json
 {
-  "sideEffects": false  // "내 프로젝트의 모든 모듈은 side effect가 없다"
+  "sideEffects": false  // "내 프로젝트의 모든 모듈은 side effect가 없다는 설정"
 }
 ```
 
@@ -250,7 +242,7 @@ if (isDark) {
 
 ---
 
-## 🔄 Tree Shaking in RollupJS
+## Tree Shaking in RollupJS
 
 저희는 Tree Shaking의 근본적인 구동 방법이 궁금해졌습니다. 이 과정에서 **ESM만을 기반으로 하는 정적 번들러인 Rollup**을 찾아보게 되었습니다.
 
@@ -264,15 +256,15 @@ if (isDark) {
 
 Rollup의 번들링 내용이 굉장히 복잡하고 이해하기 어렵습니다. 그렇기에 들어가기 전에 알고 가면 좋을 내용을 비유를 통해 정리해보겠습니다.
 
-- **Module**: 영화 장면 🎬
-- **AST**: 촬영본 - 구조화된 데이터 📹
-- **Graph**: 영화 감독 🎭
+- **Module**: 영화 장면 
+- **AST**: 촬영본 - 구조화된 데이터 
+- **Graph**: 영화 감독 
 
 ### Rollup에서의 Tree Shaking 과정
 
 Rollup의 `Graph.ts` 파일의 `build()` 함수는 **3단계**로 Tree Shaking을 수행합니다.
 
-#### 1️⃣ 모듈 로딩 & AST 생성 (`generateModuleGraph()`)
+#### 1. 모듈 로딩 & AST 생성 (`generateModuleGraph()`)
 
 ```javascript
 // Graph.ts
@@ -299,7 +291,7 @@ this.ast = convertProgram(astBuffer, programParent, this.scope);
 
 **영화 편집 비유**: 감독이 전체 대본을 읽고 각 장면(모듈) 파악 📖
 
-#### 2️⃣ 모듈 정렬 & 참조 바인딩 (`sortModules()`)
+#### 2️. 모듈 정렬 & 참조 바인딩 (`sortModules()`)
 
 ```javascript
 // Graph.ts
@@ -329,9 +321,9 @@ BB.js     CC.js
 - 예를 들어 `add()`라는 함수가 있다면 실제로 어디서 선언됐는지 찾아서 연결
 - 나중에 Tree Shaking을 할 때 "이 변수는 어디서 사용됐나? 이 함수는 참조되나?"를 명확하게 판단하기 위해서
 
-**영화 편집 비유**: 장면들의 순서 정리 및 배우들 간의 관계 연결 🎬
+**영화 편집 비유**: 장면들의 순서 정리 및 배우들 간의 관계 연결 
 
-#### 3️⃣ Tree Shaking 진행 (`includeStatements()`)
+#### 3. Tree Shaking 진행 (`includeStatements()`)
 
 ```javascript
 // Graph.ts
@@ -364,13 +356,13 @@ include(context: InclusionContext): void {
 }
 ```
 
-**영화 편집 비유**: 편집자가 "이 컷은 살릴까? 버릴까?" 판단하며 최종 편집 ✂️
+**영화 편집 비유**: 편집자가 "이 컷은 살릴까? 버릴까?" 판단하며 최종 편집 ✂
 
 ---
 
 ## 📝 정리
 
-### 🎯 핵심 내용
+### 핵심 내용
 
 1. **번들러의 필요성과 사용 이유**
    - 전역 변수 충돌 방지
@@ -390,6 +382,14 @@ include(context: InclusionContext): void {
 
 ---
 
+## Q&A 
+### Q. 팀 내 프로젝트의 코드베이스에서 사이드이펙트가 없다는 걸 감지/확신하려면?
+   사이드이펙트가 있는지 판단하려면 파일 내용을 직접 확인 해야한다. 
+   빌드 결과를 webpack-bundle-analyzer 같은 도구로 분석하면 의도치 않게 코드가 빠졌는지 확인하는데 도움이 될 수 있다.
+   팀 내에서는 사이드이펙트가 있는 파일을 예외로 잘 정리하고, 관련 기준을 공유해서 코드리뷰 때도 확인하고,
+   빌드 결과를 종종 점검하는 방식으로 신뢰도를 높이는 게 좋을 것 같다.
+---
+
 ## 📚 참고자료
 
 - [Tree Shaking - MDN Web Docs](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
@@ -400,17 +400,9 @@ include(context: InclusionContext): void {
 
 ---
 
-## 🤝 기여하기
-
-제가 틀린점이 있다면
-ISSUE 주시면 감사하겠습니다.
-
+제가 틀린점이 있다면 편하게  ISSUE 주시면 감사하겠습니다!!
 ---
 
 <div align="center">
-
-**🌳 Tree Shaking으로 더 가벼운 웹을 만들어보세요! 🌳**
-
-*"코드를 흔들어 가볍게" - 불필요한 코드는 털어내고, 필요한 코드만 남기자*
-
+**🌳 Tree Shaking! 🌳**
 </div>
