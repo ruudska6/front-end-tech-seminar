@@ -196,13 +196,23 @@ const { add } = require('./math.js');
 ```
 
 **해결 방법:**
-```json
-// .babelrc.js
-module.exports = {
-  
-  presets: [["@babel/preset-env", { modules: false }]],
-};
+
+
 ```
+// .babelrc
+
+{
+  “presets”: [ 
+    [
+      “@babel/preset-env”,
+      {
+	    "modules": false // modules 값을 true로 설정하면 항상 ES5 문법으로 변환
+      }
+    ]
+ ]
+}
+```
+
 
 Babel 설정에서 `modules: false` 옵션을 사용한다면 import/export 구문을 변환하지 않고 그대로 유지하게 됩니다. 이렇게 하면:
 1. 번들링 도구가 먼저 Tree Shaking 수행
@@ -211,7 +221,7 @@ Babel 설정에서 `modules: false` 옵션을 사용한다면 import/export 구�
 
 ### Side Effects 고려
 
-```json
+```
 // package.json
 {
   "sideEffects": false  // "내 프로젝트의 모든 모듈은 side effect가 없다는 설정"
