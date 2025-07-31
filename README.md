@@ -3,12 +3,12 @@
 
 ## 📖 목차 
 
-1. [번들링이란?](#-번들링이란?)
-2. [번들링 최적화 기법 - Tree Shaking](#-번들링-최적화-기법---tree-shaking)
-3. [Tree Shaking의 원리와 고려사항](#️-tree-shaking의-원리와-고려사항)
-4. [Tree Shaking in RollupJS](#-tree-shaking-in-rollupjs)
-5. [정리](#-정리)
-6. [Q&A](#-Q&A)
+1. [번들링이란?](#번들링이란)
+2. [번들링 최적화 기법 - Tree Shaking](#번들링-최적화-기법---tree-shaking)
+3. [Tree Shaking의 원리와 고려사항](#tree-shaking의-원리와-고려사항)
+4. [Tree Shaking in RollupJS](#tree-shaking-in-rollupjs)
+5. [정리](#정리)
+6. [Q&A](#qa)
 
 ---
 
@@ -289,7 +289,6 @@ this.ast = convertProgram(astBuffer, programParent, this.scope);
 - "어떤 변수가 정의됐는지, 어떤 함수가 export됐는지, 또 어떤 모듈을 import하고 있는지" 같은 정보가 모두 들어있음
 - 이걸 기반으로 Rollup이 사용된 코드와 아닌 코드를 정적으로 판단
 
-**영화 편집 비유**: 감독이 전체 대본을 읽고 각 장면(모듈) 파악 📖
 
 #### 2️. 모듈 정렬 & 참조 바인딩 (`sortModules()`)
 
@@ -321,7 +320,6 @@ BB.js     CC.js
 - 예를 들어 `add()`라는 함수가 있다면 실제로 어디서 선언됐는지 찾아서 연결
 - 나중에 Tree Shaking을 할 때 "이 변수는 어디서 사용됐나? 이 함수는 참조되나?"를 명확하게 판단하기 위해서
 
-**영화 편집 비유**: 장면들의 순서 정리 및 배우들 간의 관계 연결 
 
 #### 3. Tree Shaking 진행 (`includeStatements()`)
 
@@ -356,11 +354,9 @@ include(context: InclusionContext): void {
 }
 ```
 
-**영화 편집 비유**: 편집자가 "이 컷은 살릴까? 버릴까?" 판단하며 최종 편집 ✂
-
 ---
 
-## 📝 정리
+## 정리
 
 ### 핵심 내용
 
@@ -400,9 +396,9 @@ include(context: InclusionContext): void {
 
 ---
 
-제가 틀린점이 있다면 편하게  ISSUE 주시면 감사하겠습니다!!
+제가 틀린점이 있다면 편하게  ISSUE 주시면 감사하겠습ㄴ니다!!
 ---
 
 <div align="center">
-**🌳 Tree Shaking! 🌳**
+🌳 Tree Shaking! 🌳
 </div>
