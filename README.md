@@ -201,16 +201,8 @@ Babel 설정에서 `modules: false` 옵션을 사용한다면 import/export 구�
 > 2. 그 후 Babel이 변환 작업 수행
 > 3. Tree Shaking도 되고, 구형 브라우저 호환도 유지!
 
-### Side Effects 고려
-
-```
-// package.json
-{
-  "sideEffects": false  // 내 프로젝트의 모든 모듈은 side effect가 없다는 설정
-}
-```
-
-기본적으로 번들러는 매우 조심스럽게 코드가 **부작용이 없다는 확신이** 있어야 코드를 제거합니다. 그렇기에 우리는 정말 안전하다고 생각하는 파일들이 있다면 명시적으로 알려줘야 합니다.
+### Side Effects 고려(Webpack 기준)
+> 사이드 이펙트는 어떤 코드가 실행될 때 외부 상태( 화면, 변수, 파일, 네트워크 등)에영향을 주는 것을 말합니다.
 
 #### Side Effect가 있는 코드 예시
 ```javascript
@@ -223,7 +215,24 @@ if (isDark) {
   document.documentElement.classList.remove('dark');
 }
 ```
-
+만약 Side Effects 설정을 해주지 않으면 Webpack은 최대한 보수적으로 처리합니다.
+사이드 이펙트가 있을 것 같다 싶으면 처리를 하지않아 트리 셰이킹을 제대로 적용하기 어렵습니다.
+그렇기 때문에 따로 false 설정을 해주면 좀 더 트리셰이킹을 공격적으로 적용할 수 있습니다.
+```
+// package.json
+{
+  "sideEffects": false  // 내 프로젝트의 모든 모듈은 side effect가 없다는 설정
+}
+```
+false 처리를 해주었음으로 공격적으로 트리셰이킹을 처리합니다. 그렇기에 우리는
+예상치 못한 제거를 마주칠 수 있게 됩니다. 그렇기에 따로 사이드이펙트가 있을법한 파일을 처리해주어야합니다.
+```
+{
+   "sideEffects": [
+      "./src/setupTheme.js",
+      "./src/styles/global.css"] // 제거 하지 않도록 설정.
+}
+```
 ⚠️ `sideEffects: false` 처리를 해주지 않으면 Tree Shaking의 대상이 될 수 있으므로 **제거 되지 않도록 별도 처리가 필요**합니다.
 
 ### 정리: Tree Shaking을 제대로 적용하려면
@@ -240,9 +249,9 @@ if (isDark) {
 
 ### Rollup의 특징
 
-✅ **ESM 기반** - ES6 모듈을 기본으로 지원  
-✅ **Tree Shaking에 최적화** - 뛰어난 Tree Shaking 성능  
-✅ **오픈소스** - GitHub에서 내부 구현 확인 가능
+> **1. ESM 기반** - ES6 모듈을 기본으로 지원  
+> **2. Tree Shaking에 최적화** - 뛰어난 Tree Shaking 성능  
+> **3. 오픈소스** - GitHub에서 내부 구현 확인 가능
 
 ### 들어가기 전에 - 영화 편집 비유
 
