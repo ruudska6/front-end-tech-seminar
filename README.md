@@ -48,12 +48,15 @@ const firstInput = document.getElementById('input1'); // 전역 변수 충돌!
 <script src="main.js"></script>
 ```
 
-**더 많은 기능이 추가되면?**  
+아직까지는 일일이 처리해줄수 있다. 그러나
+
+**만약 더 많은 기능이 추가되면?**  
 ⚠️ 순서 의존성 증가  
 ⚠️ 모듈 관계 복잡화  
 ⚠️ 모든 코드가 브라우저로 전송  
-⚠️ 유지보수 불가능  
+⚠️ 유지보수 불가능
 
+따라서 번들러를 사용해야한다.
 ###  번들러를 사용하는 이유
 - **요청 수 감소** - 여러 파일을 하나로 합쳐 네트워크 요청 최소화  
 - **로딩 속도 향상** - 번들된 파일의 효율적인 로딩  
@@ -71,12 +74,15 @@ const firstInput = document.getElementById('input1'); // 전역 변수 충돌!
 ## 번들링 최적화 기법 - Tree Shaking
 
 ### 주요 최적화 기법들
-
 -  **Tree Shaking**: 사용하지 않는 코드(import) 제거  
 -  **Code Splitting**: 한 파일을 여러 개의 작은 파일로 나누기  
 -  **Minification**: 공백 / 주석을 없애서 크기 줄이기
 
-### Code Splitting의 효과
+### Code Splitting이란?
+JavaScript 코드를 한 번에 다 불러오지 않고,   
+필요한 순간에 필요한 코드만 나눠서 로딩하는 기법입니다.  
+이렇게 하면 초기 로딩 속도가 빨라지고,  
+사용자가 실제로 필요할 때만 코드를 불러오기 때문에 성능이 좋아집니다. 
 
 **Before (No Code Splitting):**
 - 모든 기능을 한 번에 로드
@@ -99,8 +105,8 @@ function App() {
     </Suspense>
   );
 }
-```
 
+```
 ### 🌳 Tree Shaking이란?
 
 > **Tree shaking is a term commonly used within a JavaScript context to describe the removal of dead code.**
@@ -123,7 +129,7 @@ export function add(a, b) {
   return a + b;
 }
 
-export function subtract(a, b) {  // 사용되지 않음 - Tree Shaking으로 제거 
+export function subtract(a, b) {  // 사용되지 않아서 Tree Shaking으로 제거됨. 
   return a - b;
 }
 
