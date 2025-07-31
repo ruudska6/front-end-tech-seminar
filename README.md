@@ -241,7 +241,7 @@ if (isDark) {
 
 ⚠️ `sideEffects: false` 처리를 해주지 않으면 Tree Shaking의 대상이 될 수 있으므로 **제거 되지 않도록 별도 처리가 필요**합니다.
 
-### Tree Shaking을 제대로 적용하려면
+### 정리: Tree Shaking을 제대로 적용하려면
 
 ✅ **ES6모듈 구문을 사용해야 한다**  
 ✅ **컴파일러가 ES모듈을 CommonJS 모듈로 변환하지 않도록 해야한다**  
